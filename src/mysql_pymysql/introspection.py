@@ -1,4 +1,4 @@
-from django.db.backends import BaseDatabaseIntrospection
+from django.db.backends.base.introspection import BaseDatabaseIntrospection, TableInfo
 from pymysql import ProgrammingError, OperationalError
 from pymysql.constants import FIELD_TYPE
 import re
@@ -30,9 +30,12 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
     }
 
     def get_table_list(self, cursor):
-        "Returns a list of table names in the current database."
-        cursor.execute("SHOW TABLES")
-        return [row[0] for row in cursor.fetchall()]
+        """
+        Returns a list of table and view names in the current database.
+        """
+        cursor.execute("SHOW FULL TABLES")
+        return [TableInfo(row[0], {'BASE TABLE': 't', 'VIEW': 'v'}.get(row[1]))
+                for row in cursor.fetchall()]
 
     def get_table_description(self, cursor, table_name):
         "Returns a description of the table, with the DB-API cursor.description interface."

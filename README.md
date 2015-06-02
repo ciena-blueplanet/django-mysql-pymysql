@@ -3,7 +3,7 @@ django-mysql-pymysql
 
 This is a Django database backend for MySQL, using the PyMySQL database adapter. It is intended to be a drop-in replacement for the built-in MySQLdb backend, and leverages quite a bit of its code.
 
-It is currently experimental, and has been tested with Django 1.7.
+It is currently experimental, and has been tested with Django 1.8.
 
 
 Requirements

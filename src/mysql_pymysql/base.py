@@ -36,8 +36,10 @@ except ImportError:
 
 from django.conf import settings
 from django.db import utils
-from django.db.backends import (utils as backend_utils, BaseDatabaseFeatures,
-    BaseDatabaseOperations, BaseDatabaseWrapper)
+from django.db.backends.base.features import BaseDatabaseFeatures
+from django.db.backends.base.operations import BaseDatabaseOperations
+from django.db.backends.base.base import BaseDatabaseWrapper
+from django.db.backends import utils as backend_utils
 from django.db.backends.mysql.client import DatabaseClient
 from django.db.backends.mysql.creation import DatabaseCreation
 from mysql_pymysql.introspection import DatabaseIntrospection
@@ -437,6 +439,37 @@ class DatabaseWrapper(BaseDatabaseWrapper):
         'istartswith': 'LIKE %s',
         'iendswith': 'LIKE %s',
     }
+
+    data_types = {
+        'AutoField': 'integer AUTO_INCREMENT',
+        'BinaryField': 'longblob',
+        'BooleanField': 'bool',
+        'CharField': 'varchar(%(max_length)s)',
+        'CommaSeparatedIntegerField': 'varchar(%(max_length)s)',
+        'DateField': 'date',
+        'DateTimeField': 'datetime',
+        'DecimalField': 'numeric(%(max_digits)s, %(decimal_places)s)',
+        'DurationField': 'bigint',
+        'FileField': 'varchar(%(max_length)s)',
+        'FilePathField': 'varchar(%(max_length)s)',
+        'FloatField': 'double precision',
+        'IntegerField': 'integer',
+        'BigIntegerField': 'bigint',
+        'IPAddressField': 'char(15)',
+        'GenericIPAddressField': 'char(39)',
+        'NullBooleanField': 'bool',
+        'OneToOneField': 'integer',
+        'PositiveIntegerField': 'integer UNSIGNED',
+        'PositiveSmallIntegerField': 'smallint UNSIGNED',
+        'SlugField': 'varchar(%(max_length)s)',
+        'SmallIntegerField': 'smallint',
+        'TextField': 'longtext',
+        'TimeField': 'time',
+        'UUIDField': 'char(32)',
+        'DateTimeField': 'datetime(6)',
+        'TimeField': 'time(6)',
+    }
+
 
     Database = Database
 
